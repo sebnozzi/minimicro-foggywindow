@@ -27,14 +27,18 @@ hand.height = 0
 
 hand.init = function(svgPaths,scale=1)
 	
-	parsePath = function(s,scale)
-		rawParts = s.split("L")
-		parts = []
+	// Given a path "line", parse it and return a list of points
+	parsePath = function(pathLine,scale)
+		// Split by "L"(line) commands
+		rawParts = pathLine.split("L")
+		points = []
 		for p in rawParts
 			rawPoint = ""
 			if p.startsWith("M") then
+				// Skip the initial (M)ove
 				rawPoint = p[1:]
 			else if p.endsWith("Z") then
+				// Skip the final "Z"
 				rawPoint = p[:-1]
 			else
 				rawPoint = p
@@ -42,19 +46,20 @@ hand.init = function(svgPaths,scale=1)
 			coordsStr = rawPoint.split(",")
 			x = parseNumber(coordsStr[0])*scale
 			y = parseNumber(coordsStr[1])*scale
-			parts.push [x,y]
+			points.push [x,y]
 		end for
-		return parts
+		return points
 	end function
 	
 	self.pointsList = []
+	// min/max values will be used to compute width/height
 	minX = 0
 	minY = 0
 	maxX = 0
 	maxY = 0
-	for path in svgPaths
-		if path == "" then break
-		points = parsePath(path,scale)
+	for pathLine in svgPaths
+		if pathLine == "" then break
+		points = parsePath(pathLine,scale)
 		self.pointsList.push points
 		// Compute min/max coordinates
 		// Store into allPoints
@@ -158,10 +163,11 @@ end function
 // Helper functions
 
 // Parse a string like "N.X", return N as number, discard ".X"
-parseNumber = function(s)
-	parts = s.split(".")
+parseNumber = function(floatStr)
+	parts = floatStr.split(".")
 	// Return integer part
-	return val(parts[0])
+	intPart = parts[0]
+	return val(intPart)
 end function
 
 // Setup displays
