@@ -9,7 +9,7 @@ on:
 jobs:
 
   publish:
-    uses: sebnozzi/minimicro-actions/.github/workflows/itch-deploy.yaml@main
+    uses: sebnozzi/minimicro-actions/.github/workflows/itch-deploy.yaml@feature/webgl-1.2-p2
     with:
       minidisk_main_file: demo.ms
       minidisk_additional_entries: >-
