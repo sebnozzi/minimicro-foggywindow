@@ -79,7 +79,8 @@ hand.init = function(svgPaths,scale=1)
 	
 end function
 
-hand.drawCentered = function(x,y,aColor=color.white)
+hand.drawCentered = function(x,y,aColor=null)
+	if aColor == null then aColor = color.white
 	for pathPoints in self.pointsList
 		translatedPoints = []
 		for pair in pathPoints
